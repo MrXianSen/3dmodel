@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>3D模型浏览</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container-fluid">
+    <h1>  </h1>
+
+    <form action="" method="post" enctype="multipart/form-data" >
+      name: <input type="text" name="username" value="" /><br>
+      <input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
+      up pic: <input type="file" name="pic[]" value="" id="file"><br>
+    <input type="button" value="upload" onclick="readFile();" /><br>
+    <script type="text/javascript">
+
+
+   
+    function readFile() {
+     // alert('booo'); 
+     $.ajax({
+      type: "POST",
+      url: "upload.php",
+      data: "name=pic",
+        success: function(msg){
+          alert( "Data Saved");
+          }
+      });
+
+      console.log('hello111');
+       var path = document.getElementById("file").value;
+      // alert(path);
+       function getFileName(path){
+        var pos1 = path.lastIndexOf('/');
+        var pos2 = path.lastIndexOf('\\');
+        var pos  = Math.max(pos1, pos2)
+          if( pos<0 ){
+            console.log(path);
+            alert(path);
+            return path;
+            
+          }
+          else{
+            console.log('hello');
+            return path.substring(pos+1);
+          }
+        }
+
+        var afterPath = getFileName(path);
+        var processPath = 'resources/' + afterPath;
+        alert(processPath);
+        showCanvas(processPath);
+        //(afterPath);
+
+    }
+     
+    </script>
+
+    </form> 
+
+
+      <div class="row">
+        <!--nav bar use for tool bar -->
+        <div class="col-md-1" id="navbar">  
+          <div class="btn-group-vertical" role="group" aria-label="..">
+            <button type="file" class="btn btn-default" id="import" onclick="readFile();">导入</button>
+            <button type="button" class="btn btn-default">放大</button>
+            <button type="button" class="btn btn-default">缩小</button>
+            <button type="button" class="btn btn-default">颜色选择</button>
+          </div>
+        </div>
+
+        <!--use for drawing the 3d model-->
+        <div class="col-md-11" id="canvas">
+          <canvas id="webgl" width="400" height="400">
+             Please use a browser that supports "canvas"      
+          </canvas>
+        </div>
+
+      </div>
+    </div>
+    
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="lib/webgl-utils.js"></script>
+    <script src="lib/webgl-debug.js"></script>
+    <script src="lib/cuon-utils.js"></script>
+    <script src="lib/cuon-matrix.js"></script>
+    <script src="js/OBJViewer.js"></script>
+
+  </body>
+</html>
